@@ -1,0 +1,17 @@
+sequenceDiagram
+  participant U as User browser
+  participant FE as Frontend
+  participant BE as Backend
+  participant DB as Org DB
+  participant S as Session memory
+
+  U->>FE: Open Login page
+  U->>FE: Enter username, password, paste cert and key
+  FE->>BE: POST /login {username, password, certPem, keyPem} (with credentials)
+  BE->>DB: Verify password hash
+  DB-->>BE: OK
+  Note over BE: Verify key matches cert<br/>via sign and verify
+  BE->>S: Create session with identity (cert + key)
+  S-->>BE: session id
+  BE-->>FE: Set cookie sid and return JWT
+  FE-->>U: Logged in

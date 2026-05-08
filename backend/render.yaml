@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: cti-fabric-backend
+    runtime: node
+    rootDir: .
+    buildCommand: npm install
+    startCommand: node src/server.js
+    healthCheckPath: /health
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+
+      # ── Fabric peer ─────────────────────────────────────────
+      - key: FABRIC_PEER_ENDPOINT
+        value: your-peer-host:7051          # replace with real value
+      - key: FABRIC_PEER_HOST_ALIAS
+        value: peer0.org1.example.com       # replace with real value
+      - key: FABRIC_TLS_CERT_PATH
+        value: ./crypto/org1/peer/tls/ca.crt
+
+      # ── Fabric CA ───────────────────────────────────────────
+      - key: FABRIC_CA_URL
+        value: https://ca.org1.example.com:7054  # replace with real value
+
+      # ── Channel / chaincode ─────────────────────────────────
+      - key: FABRIC_DEFAULT_CHANNEL
+        value: mychannel
+      - key: FABRIC_CHAINCODE_NAME
+        value: cti
+
+      # ── Session secret — set this in Render dashboard ───────
+      - key: SESSION_SECRET
+        generateValue: true   # Render auto-generates a secure random value

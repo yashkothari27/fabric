@@ -1,0 +1,3 @@
+# This file will be populated when you run 'go mod tidy'
+# It contains the expected cryptographic checksums of module dependencies
+

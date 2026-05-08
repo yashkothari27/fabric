@@ -1,0 +1,22 @@
+sequenceDiagram
+  participant U as User browser
+  participant FE as Frontend
+  participant BE as Backend
+  participant S as Session memory
+  participant GW as Fabric Gateway
+  participant P as Peers
+  participant CC as CTI Chaincode
+
+  U->>FE: Open ManageView/Timeline/Graph
+  U->>FE: Choose channel, request list or item
+  FE->>BE: GET /cti?channel=...
+  BE->>S: Load session identity
+  S-->>BE: cert and key
+  BE->>GW: Connect with user identity
+  GW->>P: Evaluate transaction
+  P->>CC: Query chaincode
+  CC-->>P: Data if role allowed
+  P-->>GW: Query result
+  GW-->>BE: Data
+  BE-->>FE: Data
+  FE-->>U: Show CTI

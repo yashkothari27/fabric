@@ -1,0 +1,20 @@
+sequenceDiagram
+  participant U as User browser
+  participant FE as Frontend
+  participant BE as Backend
+  participant CA as Fabric CA
+  participant DB as Org DB
+
+  U->>FE: Open Enroll page
+  Note over U,FE: Generate keypair in browser<br/>Build CSR
+  FE->>BE: POST /enroll {enrollmentId, secret, csrPem}
+  BE->>CA: Enroll with CSR
+  CA-->>BE: certificatePem
+  BE-->>FE: certificatePem
+  Note over U,FE: Offer YAML download (cert + key)
+
+  U->>FE: Set username and password
+  FE->>BE: POST /create-user {username, password, role, certPem}
+  BE->>DB: Store password hash, cert, role, org
+  DB-->>BE: OK
+  BE-->>FE: OK

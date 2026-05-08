@@ -1,0 +1,14 @@
+# Node
+backend/node_modules/
+backend/.env
+
+# Go
+chaincode/cti/vendor/
+
+# OS
+.DS_Store
+
+# Secrets / keys
+*.gpg
+*.key
+*.pem

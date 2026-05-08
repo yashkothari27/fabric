@@ -1,0 +1,34 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+cti
+
+# Go workspace file
+go.work
+
+# Dependency directories
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Chaincode package
+*.tar.gz
+
+# Logs
+*.log
+log.txt
+
+# OS
+.DS_Store
+Thumbs.db
+

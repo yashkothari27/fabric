@@ -1,0 +1,34 @@
+sequenceDiagram
+  participant U as User browser
+  participant FE as Frontend
+  participant BE as Backend
+  participant DB as Org DB
+  participant A as Admin browser
+
+  U->>FE: Open Register page
+  U->>FE: Submit registration (name, org, role)
+  FE->>BE: POST /register-request
+  BE->>DB: Insert request as PENDING
+  DB-->>BE: trackingId
+  BE-->>FE: trackingId
+  FE-->>U: Show trackingId
+
+  A->>FE: Open Admin Dashboard
+  FE->>BE: GET /requests
+  BE->>DB: Read PENDING for org
+  DB-->>BE: List of requests
+  BE-->>FE: Requests
+
+  A->>FE: Approve request
+  FE->>BE: POST /approve {trackingId, enrollmentId, secret}
+  BE->>DB: Mark APPROVED, save enrollmentId and secret
+  DB-->>BE: OK
+
+  loop user checks status
+    U->>FE: Open Status page
+    FE->>BE: GET /status/:trackingId
+    BE->>DB: Load request
+    DB-->>BE: status, enrollmentId, secret
+    BE-->>FE: status, enrollmentId, secret
+    FE-->>U: Show enrollment secret
+  end
